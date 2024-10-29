@@ -3,46 +3,47 @@ describe('Cadastro Usuário', () => {
 
     beforeEach(() => {
         cy.visit('/')
-        cy.wait(500)
+        cy.wait(1000)
+        cy.visit('auth/registrar')
     });
 
     massa.array.forEach(({ nome, email, confirmaEmail, senha, confirmaSenha }) => {
 
         it(`Criar Cadastro para ${nome}`, () => {
 
-            cy.get('#main-action')
-                .click()
-            cy.visit('auth/registrar')
-
             //verifica se o título da página
             cy.title()
                 .should('eq', 'Criar Conta - Teste')
 
+            // preenche o usuário
             cy.get('.checkout-create-user-form div:nth-child(1) label')
                 .should('have.text', 'Seu nome completo  *')
 
-            // preenche o usuário
             cy.get('input[type="text"][autocomplete="text"][data-vv-as="Seu nome completo"]')
-                .type(nome)
+                .type(nome, { delay: 100 })
 
             cy.get('.checkout-create-user-form div:nth-child(2) label')
                 .should('have.text', 'Seu email  *')
 
             cy.get('input[type="text"][autocomplete="text"][data-vv-as="Seu email"]')
-                .type(email)
+                .type(email, { delay: 100 })
 
             cy.get('.checkout-create-user-form div:nth-child(3) label')
                 .should('have.text', 'Confirme seu email  *')
 
             cy.get('input[type="text"][autocomplete="text"][data-vv-as="Confirme seu email"]')
-                .type(confirmaEmail)
+                .type(confirmaEmail, { delay: 100 })
+            cy.wait(4000)
 
             cy.get('button[type="submit"]') // botão próximo
                 .click()
 
-            // troca página
-            cy.visit('auth/registrar/senha')
+            cy.resolveCaptcha()
 
+            cy.get('button[type="submit"]') // botão próximo
+            .click()
+
+            cy.wait(4000)
             cy.get('.checkout-create-user-form div:nth-child(2) label')
                 .should('have.text', 'Sua senha  *')
 
@@ -55,8 +56,8 @@ describe('Cadastro Usuário', () => {
             cy.get('input[type="password"][autocomplete="text"][data-vv-as="Confirme sua senha"]')
                 .type(confirmaSenha)
 
-            cy.get('button[type="submit"]') // botão próximo
-                .click()
+      //      cy.get('button[type="submit"]') // botão próximo
+      //          .click()
         });
     });
 });

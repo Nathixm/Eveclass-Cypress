@@ -14,10 +14,14 @@ describe('Testando Eveclass', () => {
     cy.get('input[type="password"]')
       .type('', { delay: 100 }) //digite a senha
 
+    cy.get('button[type="submit"]')
+      .click()
+
     cy.resolveCaptcha()
 
     cy.get('button[type="submit"]')
       .click()
+    cy.wait(2000)  
   };
 
   function loginComCookie() {
@@ -27,8 +31,8 @@ describe('Testando Eveclass', () => {
 
   beforeEach(() => {
     cy.visit('/')
-    //loginNoSite()
-    loginComCookie()
+    loginNoSite()
+    //loginComCookie()
   });
 
   it('Fluxo Compra de Curso', () => {
@@ -37,7 +41,7 @@ describe('Testando Eveclass', () => {
     cy.get('.course-list-nav')
       .should('contain.text', 'Todos cursos')
 
-    cy.get('.content-list-main a:nth-child(8)')
+    cy.get('.content-list-main a:nth-child(9)')
       .click()
 
     cy.get('.content-header h1')
@@ -45,44 +49,53 @@ describe('Testando Eveclass', () => {
 
     cy.get('.content-buy .content-action a:first')
       .click()
+    cy.wait(2000)
 
     cy.get(".breadcrumb-item.active")
       .should('contain.text', '2. Pagamento')
 
     cy.get('input[type="text"][data-vv-as="CPF"]')
       .clear()
-      .type('63891227051')
+      .type('63891227051', { delay: 100 } )
 
     cy.get('input[type="text"][data-vv-as="Telefone"]')
       .clear()
-      .type('3133338854')
+      .type('3133338854', { delay: 100 } )
 
     cy.get('input[placeholder="CEP"]')
       .clear()
-      .type('35620975')
+      .type('35620975', { delay: 100 } )
 
     cy.get('input[placeholder="Cidade"]')
       .clear()
-      .type('Abaeté')
+      .type('Abaeté', { delay: 100 } )
 
     cy.get('input[placeholder="Estado"]')
       .clear()
-      .type('MG')
+      .type('MG', { delay: 100 } )
 
     cy.get('input[placeholder="Bairro"]')
       .clear()
-      .type('Centro')
+      .type('Centro', { delay: 100 } )
 
     cy.get('input[placeholder="Rua"]')
       .clear()
-      .type('Rua Principal')
+      .type('Rua Principal', { delay: 100 } )
 
     cy.get('input[placeholder="Número"]')
       .clear()
-      .type('01')
+      .type('01', { delay: 100 } )
+      cy.wait(500)  
 
     cy.get('span[class="button-text"] span span')
       .click()
+    cy.wait(500)
+
+    cy.resolveCaptcha()
+
+    cy.get('span[class="button-text"] span span')
+    .click()
+    cy.wait(500)
 
     cy.get('div[class="title"] h1')
       .should('contain.text', 'Compra realizada com sucesso!')

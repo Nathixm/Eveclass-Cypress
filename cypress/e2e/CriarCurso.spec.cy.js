@@ -1,6 +1,5 @@
 import { NOME_COOKIE_1, NOME_COOKIE_2, VALOR_COOKIE_1, VALOR_COOKIE_2 } from "../support/commands"
 
-
 describe('Testando Eveclass', () => {
 
   function loginNoSite() {
@@ -22,6 +21,8 @@ describe('Testando Eveclass', () => {
 
     cy.get('button[type="submit"]')
       .click()
+
+    cy.wait(3000)
   };
 
   function loginComCookie() {
@@ -31,8 +32,8 @@ describe('Testando Eveclass', () => {
 
   beforeEach(() => {
     cy.visit('/')
-    //loginNoSite()
-    loginComCookie()
+    loginNoSite()
+    //loginComCookie()
   });
 
   it('Criar Curso', () => {
